@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { AuthenticationService } from './authentication.service';
-import { AuthGuard } from './auth.gaurd';
+import { AuthGuard } from './auth.guard';
 import { Permissions } from './permissions';
 import { EmployersComponent } from './employers/employers.component';
 import { LoginComponent } from './login/login.component';
