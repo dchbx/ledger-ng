@@ -1,0 +1,65 @@
+<br>
+<button class="btn btn-outline-primary" data-toggle="modal" data-target=".bd-example-modal-sm" *ngIf="!checkToken">Create Employer</button> {{authenticationService}}
+<br>
+<br>
+<div class="alert alert-danger" role="alert" *ngIf="checkToken">Your token is invalid or has expired please <a routerLink="/login">re-login</a></div>
+<ul>
+  <li *ngFor="let employer of employers; let i = index">
+    <h5 class="list-group-item-heading">{{employer.legal_name}}</h5>
+    <p class="list-group-item-text">HBX ID: {{employer.hbx_id}}</p>
+    <p class="list-group-item-text">DBA: {{employer.dba}}</p>
+    <p class="list-group-item-text">Created by: {{employer.user}}</p>
+    <button class="btn btn-outline-danger btn-sm" *ngIf="permissions.isAllowed(employer)" (click)="deleteEmployer(employer,i)">Delete</button>
+    <br>
+    <br>
+  </li>
+</ul>
+
+<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">New Employer Form</h4>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="onSubmit()" #employerForm="ngForm">
+          <div class="form-group">
+            <label for="legal_name">Legal Name</label>
+            <input type="legal_name" class="form-control" id="legal_name" [(ngModel)]="model.legal_name" name="legal_name" #legal_name="ngModel" required>
+          </div>
+          <div [hidden]="legal_name.valid || legal_name.pristine" class="alert alert-danger">
+              Legal Name is required
+          </div>
+          <div class="form-group">
+            <label for="hbx_id">HBX ID</label>
+            <input type="hbx_id" type="number" class="form-control" id="hbx_id" [(ngModel)]="model.hbx_id" name="hbx_id" #hbx_id="ngModel" required>
+          </div>
+          <div [hidden]="hbx_id.valid || hbx_id.pristine" class="alert alert-danger">
+              HBX ID is required
+          </div>
+          <div class="form-group">
+            <label for="dba">DBA</label>
+            <input type="dba" class="form-control" id="dba" [(ngModel)]="model.dba" name="dba" #dba="ngModel" required>
+          </div>
+          <div [hidden]="dba.valid || dba.pristine" class="alert alert-danger">
+              DBA is required
+          </div>
+          <div class="form-group">
+            <label for="fein">FEIN</label>
+            <input type="fein" class="form-control" type="number" id="fein" [(ngModel)]="model.fein" name="fein" #fein="ngModel" required>
+          </div>
+          <div [hidden]="fein.valid || fein.pristine" class="alert alert-danger">
+              FEIN required
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-outline-primary" [disabled]="!employerForm.form.valid" (click)="createEmployers(model); employerForm.reset()" data-dismiss="modal">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="row">
+    <form class="authorization" (ngSubmit)="onSubmit()" #signUpForm="ngForm">
+      <h3 class="text-center">Sign Up</h3>
+      <small class="text-muted">Already have an account? <a routerLink="/login"> Log in.</a></small>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="model.email" name="email" #email="ngModel" required>
+      </div>
+      <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+          Email is required
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="model.password" name="password" #password="ngModel" required>
+      </div>
+      <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+          Password is required
+      </div>
+      <div class="form-group">
+        <label for="password_confirmation">Password Confirmation</label>
+        <input type="password" class="form-control" id="password_confirmation" [(ngModel)]="model.password_confirmation" name="password_confirmation" #password_confirmation="ngModel" required>
+      </div>
+      <div [hidden]="password_confirmation.valid || password_confirmation.pristine" class="alert alert-danger">
+          Password Confirmation is required
+      </div>
+      <button type="submit" class="btn btn-outline-success btn-block" [disabled]="!signUpForm.form.valid" (click)="signUp(model)">Submit</button>
+    </form>
+</div>

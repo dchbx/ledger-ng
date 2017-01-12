@@ -1,0 +1,21 @@
+<div class="row">
+    <form class="authorization" (ngSubmit)="onSubmit()" #loginForm="ngForm">
+      <h3 class="text-center">Login</h3>
+      <small class="text-muted">Don't have a account a <a routerLink="/signup">Or, Sign Up.</a></small>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" [(ngModel)]="model.email" name="email" #email="ngModel" required>
+      </div>
+      <div [hidden]="email.valid || email.pristine" class="alert alert-danger">
+          Email is required
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" [(ngModel)]="model.password" name="password" #password="ngModel" required>
+      </div>
+      <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+          Password is required
+      </div>
+      <button type="submit" class="btn btn-outline-success btn-block" [disabled]="!loginForm.form.valid" (click)="login(model)">Submit</button>
+    </form>
+</div>

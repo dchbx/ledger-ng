@@ -1,3 +1,8 @@
-<h1>
-  {{title}}
-</h1>
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="#">Financial Management System</a>
+  <a routerLink="/login" class="right-menu" *ngIf="auth.token">Logout</a>
+</nav>
+
+<div class="container-fluid">
+  <router-outlet></router-outlet>
+</div>
