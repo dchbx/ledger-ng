@@ -31,6 +31,12 @@ describe( 'EmployerService', () => {
       ]
     } );
     
+    // create a user token
+    window.localStorage.setItem('currentUser', JSON.stringify( {
+      token: "pseudo_valid_token",
+      email: "test@test.com",
+    } ) );
+    
   } );
   
   // Inject our service and backend before each test
@@ -39,7 +45,7 @@ describe( 'EmployerService', () => {
     backend = mockBackend;
   } ) );
   
-  describe( 'getEmployers()', (done) => {
+  describe( 'getEmployers()', () => {
     
     it( 'should make a GET request', (done) => {
       // Hook into the Mock HTTP Wrapper
@@ -55,7 +61,7 @@ describe( 'EmployerService', () => {
       subject.getEmployers().subscribe( () => { done(); } );
     } );
     
-    it( 'should return a table of employers', (done) => {
+    it( 'should return a table directly from the API', (done) => {
       // Hook into the Mock HTTP Wrapper
       backend.connections.subscribe( (connection: MockConnection) => {
         expect( connection.request.method ).toEqual( 0 );
