@@ -34,7 +34,7 @@ describe( 'EmployerService', () => {
     // create a user token
     window.localStorage.setItem('currentUser', JSON.stringify( {
       token: "pseudo_valid_token",
-      email: "test@test.com",
+      email: btoa( "test@test.com" ),
     } ) );
     
   } );
@@ -44,6 +44,56 @@ describe( 'EmployerService', () => {
     subject = employerService;
     backend = mockBackend;
   } ) );
+  
+  describe( 'createEmployer()', () => {
+      
+    let sampleEmployerInput = {
+      legal_name: "DC Health Benefit Exchange Authority",
+      hbx_id: 2,
+      dba: 8892818,
+      fein: "7728181",
+      
+    };
+    
+    it( 'should make a POST request', (done) => {
+      // Hook into the Mock HTTP Wrapper
+      backend.connections.subscribe( (connection: MockConnection) => {
+        expect( connection.request.method ).toEqual( 1 );
+        
+        // Send off the response
+        let options = new ResponseOptions( { body: {} } );
+        connection.mockRespond( new Response( options ) );
+      } );
+      
+      // Create the HTTP Request
+      subject.createEmployer( sampleEmployerInput ).subscribe( () => { done(); } );
+    } );
+
+    it( 'should POST the user inputted fields', (done) => {
+      // Hook into the Mock HTTP Wrapper
+      backend.connections.subscribe( (connection: MockConnection) => {
+        // Make sure an employer was submitted
+        expect( connection.request._body.employer ).toBeDefined();
+        
+        // Make sure we recieved what the user submitted
+        expect( connection.request._body.employer ).toEqual( {
+          "legal_name": sampleEmployerInput.legal_name,
+          "hbx_id": sampleEmployerInput.hbx_id,
+          "dba": sampleEmployerInput.dba,
+          "fein": sampleEmployerInput.fein,
+          "user": "test@test.com",
+          "is_active": true
+        } );
+                
+        // Send off the response
+        let options = new ResponseOptions( { body: {} } );
+        connection.mockRespond( new Response( options ) );
+      } );
+      
+      // Create the HTTP Request
+      subject.createEmployer( sampleEmployerInput ).subscribe( () => { done(); } );
+    } );
+  } );
   
   describe( 'getEmployers()', () => {
     
