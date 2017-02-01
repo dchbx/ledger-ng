@@ -4,13 +4,13 @@ Feature: Signup Page
     the sign up page
     
     Scenario: Test Create Account Invalid Password Confirmation
-        Given I go to "http://localhost:4200/signup"
+        Given in the app I go to "/signup"
         When I fill in create account information
         And I click the submit button
-        Then the browser should navigate to "http://localhost:4200/employers"
+        Then the path should be "/employers"
 
     Scenario: Test Create Employer Account
-        Given I go to "http://localhost:4200/signup"
+        Given in the app I go to "/signup"
         When I fill in create account information
         And I input an invalid password confirmation
-        Then the browser should navigate to "http://localhost:4200/signup"
+        Then the path should be "/signup"

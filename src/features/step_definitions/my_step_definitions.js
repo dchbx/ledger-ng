@@ -4,7 +4,6 @@ var chai = require( 'chai' );
 var chaiAsPromised = require( 'chai-as-promised' );
 chai.use( chaiAsPromised );
 
-
 var urlChanged = function(url, checkEquals) {
   return function () {
     return browser.getCurrentUrl().then(function(actualUrl) {
@@ -22,8 +21,15 @@ module.exports = function() {
     browser.get( site ).then( callback );
   });
   
+  this.Given(/^in the app I go to "([^"]*)"$/, function (site, callback) {
+    browser.ignoreSynchronization = true;
+    browser.waitForAngular();
+    browser.sleep(500); 
+    browser.get( browser.params.APP_URL + site ).then( callback );
+  });
+  
   this.When(/^I fill in create account information$/, function() {
-    element(by.id('email')).sendKeys('212a22a23@addsdasd.com');
+    element(by.id('email')).sendKeys('212a22a23@addasdsdasd.com');
     element(by.id('password')).sendKeys('aaa111bbb!');
     element(by.id('password_confirmation')).sendKeys('aaa111bbb!');
   });
@@ -37,7 +43,20 @@ module.exports = function() {
     element(by.id('password_confirmation')).sendKeys('aaa111bbb!asdasasd!!q3');
   });
   
-  this.Then(/^the browser should navigate to "([^"]*)"$/, function(param, callback) {
+  this.Then(/^the path should be "([^"]*)"$/, function(param, callback) {
+    browser.wait( function() {
+      return browser.getCurrentUrl().then( function(url) {
+        var relativeUrl = url.replace( browser.params.APP_URL, "" );
+        
+        if( relativeUrl == param ) {
+          callback();
+          return true;
+        }
+      });
+    }, 10500, "Invalid path");
+  });
+  
+  this.Then(/^the URL should be "([^"]*)"$/, function(param, callback) {
     browser.wait( function() {
       return browser.getCurrentUrl().then( function(url) {
         if( url == param ) {
@@ -45,7 +64,7 @@ module.exports = function() {
           return true;
         }
       });
-    }, 10500, "URL hasn't changed");
+    }, 10500, "Invalid URL");
   });
 
 };
