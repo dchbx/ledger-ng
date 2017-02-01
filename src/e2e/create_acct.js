@@ -27,7 +27,7 @@ describe( 'create account', function() {
       element( by.css( '[type="submit"]' ) ).click();
       
       // make sure the page doesn't change
-      browser.wait(urlChanged("http://localhost:4200/signup", true), 1000);
+      browser.wait(urlChanged("http://localhost:4200/signup", true), 2000);
   } );
   
   it( 'should change pages on successful signup', function() {
@@ -35,7 +35,7 @@ describe( 'create account', function() {
       element( by.css( '[type="submit"]' ) ).click();
       
       // make sure the page changes
-      browser.wait(urlChanged("http://localhost:4200/signup", false), 1000);
+      browser.wait(urlChanged("http://localhost:4200/signup", false), 2200);
   } );
   
 } );
