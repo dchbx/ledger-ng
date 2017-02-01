@@ -16,11 +16,14 @@ var urlChanged = function(url, checkEquals) {
 module.exports = function() {
   
   this.Given(/^I go to "([^"]*)"$/, function (site, callback) {
+    browser.ignoreSynchronization = true;
+    browser.waitForAngular();
+    browser.sleep(500); 
     browser.get( site ).then( callback );
   });
   
   this.When(/^I fill in create account information$/, function() {
-    element(by.id('email')).sendKeys('asd1sas@email.com');
+    element(by.id('email')).sendKeys('212a22a23@addsdasd.com');
     element(by.id('password')).sendKeys('aaa111bbb!');
     element(by.id('password_confirmation')).sendKeys('aaa111bbb!');
   });
@@ -37,12 +40,12 @@ module.exports = function() {
   this.Then(/^the browser should navigate to "([^"]*)"$/, function(param, callback) {
     browser.wait( function() {
       return browser.getCurrentUrl().then( function(url) {
-        if( chai.expect( url ).to.equal( param ) ) {
+        if( url == param ) {
           callback();
-          return;
+          return true;
         }
       });
-    }, 1500, "URL hasn't changed");
+    }, 10500, "URL hasn't changed");
   });
 
 };
