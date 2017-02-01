@@ -12,6 +12,9 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome'
   },
+  params: {
+    APP_URL: 'http://localhost:4200'
+  },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
   framework: 'custom',
