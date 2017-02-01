@@ -3,6 +3,7 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class AuthenticationService {
@@ -10,8 +11,7 @@ export class AuthenticationService {
     public email: string;
     public admin: string;
 	  public userEmail: string;
-    
-    private url = 'http://localhost:3000/users';
+    private api = environment.envApi;
     
     constructor(private http: Http) {
         // set token if saved in local storage
@@ -23,7 +23,7 @@ export class AuthenticationService {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         
-        return this.http.post('http://localhost:3000/users/sign_in.json', {"user":{ email: user.email, password: user.password }}, headers)
+        return this.http.post(this.api+'/users/sign_in.json', {"user":{ email: user.email, password: user.password }}, headers)
             .map((response: Response) => {
                 // login successful if there's a jwt token in the response
                 let token = response.json() && response.json().token;
@@ -52,7 +52,7 @@ export class AuthenticationService {
       const headers = new Headers();
       headers.append('Content-Type', 'application/json');
       
-      return this.http.post('http://localhost:3000/users.json', {"user":{ email: user.email, password: user.password, password_confirmation: user.password_confirmation }}, headers)
+      return this.http.post(this.api+'/users.json', {"user":{ email: user.email, password: user.password, password_confirmation: user.password_confirmation }}, headers)
           .map((response: Response) => {
               // login successful if there's a jwt token in the response
               let token = response.json() && response.json().token;
